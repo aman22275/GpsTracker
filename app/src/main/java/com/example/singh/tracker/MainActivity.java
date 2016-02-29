@@ -61,15 +61,27 @@ final String log = "MainActivity";
         TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         String mPhoneNumber = tMgr.getDeviceId();
 
-
         String method = "register";
-        BackGroundTask bg = new BackGroundTask(this);
-        bg.execute(method, mPhoneNumber, lat, lang);
+        BackGroundTask g= new BackGroundTask(this);
+        g.execute(method, mPhoneNumber,lat,lang);
 
             Toast.makeText(getBaseContext(), lat + "," + lang + "," + mPhoneNumber, Toast.LENGTH_LONG).show();
         }
 
+    public void notifyLocationChanged(Double l1, Double l2){
+        //do some thing
 
+        TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        String mPhoneNumber = tMgr.getDeviceId();
+        String method = "register";
+        Double lat = l1;
+        Double lang = l2;
+         BackGroundTask gp= new BackGroundTask(this);
+       // gp.execute(method, mPhoneNumber,lat,lang);
+
+
+        Toast.makeText(getBaseContext(),"data from on location change"+lat+"-"+lang,Toast.LENGTH_LONG).show();
+    }
 
 
 

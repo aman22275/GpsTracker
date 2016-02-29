@@ -1,7 +1,9 @@
 package com.example.singh.tracker;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.telephony.TelephonyManager;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -51,8 +53,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        ParseQuery<ParseUser> query = ParseUser.getQuery();
 
         String method = "map";
-        BackGroundTask bg = new BackGroundTask(this);
-        bg.execute(method, lat, lang);
+
+
+        TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        String mPhoneNumber = tMgr.getDeviceId();
+
+        //String method = "register";
+        BackGroundTask g= new BackGroundTask(this);
+        g.execute(method, mPhoneNumber);
+
+
+        //  BackGroundTask bg = new BackGroundTask(this);
+       // bg.execute(method, lat, lang);
 
 
                     LatLng aaa = new LatLng(87687, 324234);

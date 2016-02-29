@@ -117,8 +117,8 @@ public class Gpstracker extends Service implements LocationListener {
     public void onLocationChanged(Location location) {
       //  getLocation();
 
-       // ((MainActivity)mContext).notifyLocationChanged(location.getLatitude(),location.getLongitude());
-        Toast.makeText(mContext, location.getLatitude()+","+location.getLongitude(), Toast.LENGTH_LONG).show();
+        ((MainActivity)mContext).notifyLocationChanged(location.getLatitude(),location.getLongitude());
+      //  Toast.makeText(mContext, location.getLatitude()+","+location.getLongitude(), Toast.LENGTH_LONG).show();
 
     }
 

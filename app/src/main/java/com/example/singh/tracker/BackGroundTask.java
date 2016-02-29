@@ -23,21 +23,22 @@ public class BackGroundTask extends AsyncTask<String, Void, String> {
 
 
     Context ctx;
-    BackGroundTask(Context ctx)
-    {
+
+    BackGroundTask(Context ctx) {
         this.ctx = ctx;
     }
 
+
+
     @Override
     protected String doInBackground(String... params) {
-       String reg_url = "http://tracker.hol.es/upload.php";
- //    String reg_url = "http://localhost/tracker/upload.php";
+        String reg_url = "http://tracker.hol.es/upload.php";
+        //    String reg_url = "http://localhost/tracker/upload.php";
         String method = params[0];
-        if(method.equals("register"))
-        {
-            String id= params[1];
-            String lat =params[2];
-      String lang = params[3];
+        if (method.equals("register")) {
+            String id = params[1];
+            String lat = params[2];
+            String lang = params[3];
 
             try {
                 URL url = new URL(reg_url);
@@ -45,20 +46,19 @@ public class BackGroundTask extends AsyncTask<String, Void, String> {
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoOutput(true);
                 OutputStream os = httpURLConnection.getOutputStream();
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-                String data = URLEncoder.encode("id","UTF-8")+ "=" + URLEncoder.encode(id,"UTF-8")+"&"+
-                        URLEncoder.encode("lat","UTF-8")+ "=" + URLEncoder.encode(lat,"UTF-8")+"&"+
-                        URLEncoder.encode("lang","UTF-8")+ "=" + URLEncoder.encode(lang,"UTF-8");
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8") + "&" +
+                        URLEncoder.encode("lat", "UTF-8") + "=" + URLEncoder.encode(lat, "UTF-8") + "&" +
+                        URLEncoder.encode("lang", "UTF-8") + "=" + URLEncoder.encode(lang, "UTF-8");
                 bufferedWriter.write(data);
                 bufferedWriter.flush();
                 bufferedWriter.close();
                 os.close();
 
-                InputStream is=httpURLConnection.getInputStream();
+                InputStream is = httpURLConnection.getInputStream();
                 is.close();
 
-                return "register...."+lat+"see"+lang;
-
+                return "register...." + lat + "see" + lang;
 
 
             } catch (MalformedURLException e) {
@@ -68,20 +68,22 @@ public class BackGroundTask extends AsyncTask<String, Void, String> {
             }
         }
 
-        else
-        if(method.equals("map"))
-        {
+        // return null;
 
+
+        else if (method.equals("map")) {
+
+            String id = params[1];
             try {
                 URL url = new URL("http://tracker.hol.es/getdata.php");
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoOutput(true);
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-                String data = URLEncoder.encode("id","UTF-8")+ "=" + URLEncoder.encode(id,"UTF-8")+"&"+
-                URLEncoder.encode("lat","UTF-8")+ "=" + URLEncoder.encode(lat,"UTF-8");
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
+                // URLEncoder.encode("lat","UTF-8")+ "=" + URLEncoder.encode(lat,"UTF-8");
                 bufferedWriter.write(data);
                 bufferedWriter.flush();
                 bufferedWriter.close();
@@ -89,19 +91,20 @@ public class BackGroundTask extends AsyncTask<String, Void, String> {
 
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader
-                        (inputStream,"iso-8859-1"));
+                        (inputStream, "iso-8859-1"));
                 String response = "";
                 String line = "";
 
-                while ((line=bufferedReader.readLine())!=null)
-                {
+                while ((line = bufferedReader.readLine()) != null) {
 
                     response = response + line;
                 }
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
+
                 return response;
+
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -109,9 +112,9 @@ public class BackGroundTask extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
             }
 
-
         }
         return null;
+
     }
 
     @Override
@@ -121,6 +124,15 @@ public class BackGroundTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        Toast.makeText(ctx,result,Toast.LENGTH_LONG).show();
-    }
+        if (result.equals("register")) {
+            Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(ctx, "result from map"+result, Toast.LENGTH_LONG).show();
+
+        }
+        }
 }
+
+
+
