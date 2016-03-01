@@ -18,6 +18,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
 
+    Double lat,lang;
   //  String lat;
    // String lang;
 
@@ -49,27 +50,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
 //        ParseQuery<ParseUser> query = ParseUser.getQuery();
-
         String method = "map";
-
 
         TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         String mPhoneNumber = tMgr.getDeviceId();
 
-        //String method = "register";
-        BackGroundTask g= new BackGroundTask(this);
+       /* BackGroundTask g= new BackGroundTask(this);
+  g.map=mMap;
+        g.application = (track)this.getApplication();
         g.execute(method, mPhoneNumber);
+*/
 
-
-        //  BackGroundTask bg = new BackGroundTask(this);
-       // bg.execute(method, lat, lang);
-
-
-                    LatLng aaa = new LatLng(87687, 324234);
+        track a = (track)getApplication();
+        LatLng aaa = new LatLng(a.lat, a.lang);
                     mMap.addMarker(new MarkerOptions().position(aaa).title("Marker in Sydney"));
-                    //   mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(aaa));
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(aaa, 15));
 
 

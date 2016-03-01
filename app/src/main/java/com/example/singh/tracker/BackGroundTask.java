@@ -4,6 +4,11 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -19,22 +24,23 @@ import java.net.URLEncoder;
 /**
  * Created by singh on 2/26/2016.
  */
-public class BackGroundTask extends AsyncTask<String, Void, String> {
+public class BackGroundTask extends AsyncTask<String, String, String> {
 
 
+   public GoogleMap map;
     Context ctx;
+    public static track application;
 
     BackGroundTask(Context ctx) {
         this.ctx = ctx;
     }
-
-
 
     @Override
     protected String doInBackground(String... params) {
         String reg_url = "http://tracker.hol.es/upload.php";
         //    String reg_url = "http://localhost/tracker/upload.php";
         String method = params[0];
+        String m=params[0];
         if (method.equals("register")) {
             String id = params[1];
             String lat = params[2];
@@ -58,7 +64,7 @@ public class BackGroundTask extends AsyncTask<String, Void, String> {
                 InputStream is = httpURLConnection.getInputStream();
                 is.close();
 
-                return "register...." + lat + "see" + lang;
+                return lat+","+lang;
 
 
             } catch (MalformedURLException e) {
@@ -103,6 +109,14 @@ public class BackGroundTask extends AsyncTask<String, Void, String> {
                 inputStream.close();
                 httpURLConnection.disconnect();
 
+                String[] d =response.split(",");
+
+
+
+                application.setLatLang(response);
+
+               // response.split(",");
+
                 return response;
 
 
@@ -118,7 +132,7 @@ public class BackGroundTask extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected void onProgressUpdate(Void... values) {
+    protected void onProgressUpdate(String... values) {
         super.onProgressUpdate(values);
     }
 
@@ -129,8 +143,9 @@ public class BackGroundTask extends AsyncTask<String, Void, String> {
         }
         else {
             Toast.makeText(ctx, "result from map"+result, Toast.LENGTH_LONG).show();
+            application.setLatLang(result);
 
-        }
+           }
         }
 }
 

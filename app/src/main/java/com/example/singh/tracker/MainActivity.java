@@ -2,30 +2,51 @@ package com.example.singh.tracker;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 
 public class MainActivity extends AppCompatActivity {
 
-final String log = "MainActivity";
+    final String log = "MainActivity";
     HttpURLConnection httpURLConnection = null;
-    InputStream is =null;
+    InputStream is = null;
 
 
     Button b;
-   // @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
+
+    // @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,13 +83,28 @@ final String log = "MainActivity";
         String mPhoneNumber = tMgr.getDeviceId();
 
         String method = "register";
-        BackGroundTask g= new BackGroundTask(this);
-        g.execute(method, mPhoneNumber,lat,lang);
-
-            Toast.makeText(getBaseContext(), lat + "," + lang + "," + mPhoneNumber, Toast.LENGTH_LONG).show();
+        BackGroundTask g = new BackGroundTask(this);
+        try {
+            track temp = (track) getApplication();
+            g.application = temp;
+        } catch (Exception e) {
+            Log.e("track", e.getMessage());
         }
+        g.execute(method, mPhoneNumber, lat, lang);
 
-    public void notifyLocationChanged(Double l1, Double l2){
+        String m = "map";
+        BackGroundTask gp= new BackGroundTask(this);
+        //g.map=mMap;
+        gp.application = (track)this.getApplication();
+        gp.execute(m, mPhoneNumber);
+
+        Toast.makeText(getBaseContext(), lat + "," + lang + "," + mPhoneNumber, Toast.LENGTH_LONG).show();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    public void notifyLocationChanged(Double l1, Double l2) {
         //do some thing
 
         TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
@@ -76,13 +112,13 @@ final String log = "MainActivity";
         String method = "register";
         Double lat = l1;
         Double lang = l2;
-         BackGroundTask gp= new BackGroundTask(this);
-       // gp.execute(method, mPhoneNumber,lat,lang);
+        // BackGroundTask gp= new BackGroundTask(this);
+        //gp.application = (track)this.getApplication();
+        // gp.execute(method, mPhoneNumber,lat,lang);
 
 
-        Toast.makeText(getBaseContext(),"data from on location change"+lat+"-"+lang,Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "data from on location change" + lat + "-" + lang, Toast.LENGTH_LONG).show();
     }
-
 
 
     @Override
@@ -105,5 +141,45 @@ final String log = "MainActivity";
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.example.singh.tracker/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.example.singh.tracker/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
     }
 }
