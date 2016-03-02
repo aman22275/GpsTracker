@@ -12,15 +12,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.net.HttpURLConnection;
-
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
     Double lat,lang;
-  //  String lat;
-   // String lang;
 
 
 
@@ -50,7 +46,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-//        ParseQuery<ParseUser> query = ParseUser.getQuery();
         String method = "map";
 
         TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
@@ -64,7 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         track a = (track)getApplication();
         LatLng aaa = new LatLng(a.lat, a.lang);
-                    mMap.addMarker(new MarkerOptions().position(aaa).title("Marker in Sydney"));
+                    mMap.addMarker(new MarkerOptions().position(aaa).title("You are track"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(aaa));
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(aaa, 15));
 
@@ -76,11 +71,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
 
-
-
-
-
-        // Add a marker in Sydney and move the camera
 
 
 

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
@@ -20,17 +18,8 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,21 +40,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //  Parse.enableLocalDatastore(this);
-        // Parse.initialize(this, "4nI2ZENOQVxQdWT1N1sygqkGQnv2JOQ7ZR8XyS8w", "aQObwNKQRPMCtR4k9zrxpBCe0pirhPxSZ3C9WR9t");
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         b = (Button) findViewById(R.id.id);
         b.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
         Gpstracker gps = new Gpstracker(this);
         String lat = String.valueOf(gps.getLatitude());
         String lang = String.valueOf(gps.getLongitude());
@@ -82,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         String mPhoneNumber = tMgr.getDeviceId();
 
+        //UPLOAD DATA
         String method = "register";
         BackGroundTask g = new BackGroundTask(this);
         try {
@@ -92,9 +79,9 @@ public class MainActivity extends AppCompatActivity {
         }
         g.execute(method, mPhoneNumber, lat, lang);
 
+        //GETDATA
         String m = "map";
         BackGroundTask gp= new BackGroundTask(this);
-        //g.map=mMap;
         gp.application = (track)this.getApplication();
         gp.execute(m, mPhoneNumber);
 
@@ -105,18 +92,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void notifyLocationChanged(Double l1, Double l2) {
-        //do some thing
 
         TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         String mPhoneNumber = tMgr.getDeviceId();
         String method = "register";
         Double lat = l1;
         Double lang = l2;
-        // BackGroundTask gp= new BackGroundTask(this);
-        //gp.application = (track)this.getApplication();
-        // gp.execute(method, mPhoneNumber,lat,lang);
-
-
         Toast.makeText(getBaseContext(), "data from on location change" + lat + "-" + lang, Toast.LENGTH_LONG).show();
     }
 

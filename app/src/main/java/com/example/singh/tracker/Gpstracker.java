@@ -9,7 +9,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Created by singh on 2/24/2016.
@@ -49,12 +48,6 @@ public class Gpstracker extends Service implements LocationListener {
     public Location getLocation() {
         try {
             locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
-
-/*            // getting GPS status
-            isGPSEnabled = locationManager
-                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
-*/
-            // getting network status
             isNetworkEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
@@ -115,8 +108,6 @@ public class Gpstracker extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-      //  getLocation();
-
         ((MainActivity)mContext).notifyLocationChanged(location.getLatitude(),location.getLongitude());
       //  Toast.makeText(mContext, location.getLatitude()+","+location.getLongitude(), Toast.LENGTH_LONG).show();
 

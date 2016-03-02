@@ -2,7 +2,6 @@ package com.example.singh.tracker;
 
 import android.app.Application;
 import android.location.Location;
-import android.widget.Toast;
 
 /**
  * Created by singh on 3/1/2016.

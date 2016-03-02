@@ -38,7 +38,6 @@ public class BackGroundTask extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... params) {
         String reg_url = "http://tracker.hol.es/upload.php";
-        //    String reg_url = "http://localhost/tracker/upload.php";
         String method = params[0];
         String m=params[0];
         if (method.equals("register")) {
@@ -74,9 +73,6 @@ public class BackGroundTask extends AsyncTask<String, String, String> {
             }
         }
 
-        // return null;
-
-
         else if (method.equals("map")) {
 
             String id = params[1];
@@ -89,7 +85,6 @@ public class BackGroundTask extends AsyncTask<String, String, String> {
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                 String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
-                // URLEncoder.encode("lat","UTF-8")+ "=" + URLEncoder.encode(lat,"UTF-8");
                 bufferedWriter.write(data);
                 bufferedWriter.flush();
                 bufferedWriter.close();
@@ -110,13 +105,7 @@ public class BackGroundTask extends AsyncTask<String, String, String> {
                 httpURLConnection.disconnect();
 
                 String[] d =response.split(",");
-
-
-
                 application.setLatLang(response);
-
-               // response.split(",");
-
                 return response;
 
 
