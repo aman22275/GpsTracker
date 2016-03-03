@@ -103,8 +103,8 @@ public class BackGroundTask extends AsyncTask<String, String, String> {
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
-
-                String[] d =response.split(",");
+//Toast.makeText(this.ctx,"response->"+response,Toast.LENGTH_LONG).show();
+           //     String[] d =response.split(",");
                 application.setLatLang(response);
                 return response;
 
@@ -132,7 +132,7 @@ public class BackGroundTask extends AsyncTask<String, String, String> {
         }
         else {
             Toast.makeText(ctx, "result from map"+result, Toast.LENGTH_LONG).show();
-            application.setLatLang(result);
+           // application.setLatLang(result);
 
            }
         }

@@ -8,8 +8,10 @@ import android.location.Location;
  */
 public class track extends Application {
 
-    public static double lat = 23.12;
-    public static double lang = 32.23;
+    public static double lat = 1;
+    public static double lang = 2;
+    public static double lat1 =3;
+    public static double lang1=4;
 
     public track()
     {
@@ -24,11 +26,14 @@ public class track extends Application {
    public static void setLatLang(String location)
     {
 
-        String[] ads = location.split(",");
-        lat = Double.parseDouble(ads[0]);
-        lang=Double.parseDouble(ads[1]);
+       String a[] = location.split(",");
+        lat = Double.parseDouble(a[0]);
+        lang=Double.parseDouble(a[1]);
+        lat1=Double.parseDouble(a[2]);
+        lang1=Double.parseDouble(a[3]);
+        //lang2=Double.parseDouble(ads[3]);
 
-       // Toast.makeText(this.getApplicationContext(),"track class"+location,Toast.LENGTH_LONG).show();
+        // Toast.makeText(this.getApplicationContext(),"track class"+location,Toast.LENGTH_LONG).show();
 
     }
 

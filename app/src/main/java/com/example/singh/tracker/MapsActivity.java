@@ -16,8 +16,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
 
-    Double lat,lang;
-
+    Double lat, lang;
 
 
     @Override
@@ -31,7 +30,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
-
 
 
     /**
@@ -57,18 +55,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         g.execute(method, mPhoneNumber);
 */
 
-        track a = (track)getApplication();
+        track a = (track) getApplication();
+        Double aaaa = a.lat1;
+        Double bb = a.lang1;
         LatLng aaa = new LatLng(a.lat, a.lang);
-                    mMap.addMarker(new MarkerOptions().position(aaa).title("You are track"));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(aaa));
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(aaa, 15));
+        mMap.addMarker(new MarkerOptions().position(aaa).title("lat + lang"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(aaa));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(aaa, 15));
 
 
-                }
+        LatLng aa = new LatLng(a.lat1, a.lang1);
+        mMap.addMarker(new MarkerOptions().position(aa).title("lat1 + lang1"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(aa));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(aaa, 15));
 
 
 
-            }
+    }
+
+}
+
+
 
 
 
